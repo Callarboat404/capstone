@@ -102,41 +102,44 @@ export function accountsFunctions() {
                 //Edit Button
                 const actionCell = document.createElement('td');
                 actionCell.className = 'action-btn';
-                const editBtn = document.createElement('a');
-                editBtn.className = 'text-info';
-                editBtn.title = 'Edit';
-                // editBtn.dataset.bsToggle = 'modal';
-                // editBtn.dataset.bsTarget = '#editAdminAccounts';
-                editBtn.innerHTML = "<i class='bx bx-edit'></i>";
-                actionCell.appendChild(editBtn);
+                if (selectedTable !== 'web') {
+                    const editBtn = document.createElement('a');
+                    editBtn.className = 'text-info';
+                    editBtn.title = 'Edit';
+                    // editBtn.dataset.bsToggle = 'modal';
+                    // editBtn.dataset.bsTarget = '#editAdminAccounts';
+                    editBtn.innerHTML = "<i class='bx bx-edit'></i>";
+                    actionCell.appendChild(editBtn);
 
-                editBtn.addEventListener('click', () => {
-                    //Open Specific Modal
-                    if (selectedTable === 'web') {
-                        $('#editAgencyAccounts').modal('show');
-                        document.getElementById('editWeb').value = data['companyName'];
-                        document.getElementById('editWebEmail').value = data['agency_email'];
-                        document.getElementById('editWebPass').value = data['agency_password'];
-                        currentData = [data['agency_id'], data['companyName'], data['agency_email'], data['agency_password']];
-                        select = "edit";
-                        tableUse = "web";
-                        editWebAccount(currentData);
-                    } else {
-                        // editBtn.dataset.bsTarget = '#editAdminAccounts';
-                        $('#editAdminAccounts').modal('show');
-                        document.getElementById('editAdmin').value = data['adminName'];
-                        document.getElementById('editAdminEmail').value = data['admin_email'];
-                        document.getElementById('editAdminPass').value = data['admin_password'];
-                        currentData = [data['admin_id'], data['adminName'], data['admin_email'], data['admin_password']];
-                        select = "edit";
-                        tableUse = "admin";
-                        editAdminAccount(currentData);
-                    }
+                    editBtn.addEventListener('click', () => {
+                        //Open Specific Modal
+                        if (selectedTable === 'web') {
+                            $('#editAgencyAccounts').modal('show');
+                            document.getElementById('editWeb').value = data['companyName'];
+                            document.getElementById('editWebEmail').value = data['agency_email'];
+                            document.getElementById('editWebPass').value = data['agency_password'];
+                            currentData = [data['agency_id'], data['companyName'], data['agency_email'], data['agency_password']];
+                            select = "edit";
+                            tableUse = "web";
+                            editWebAccount(currentData);
+                        } else {
+                            // editBtn.dataset.bsTarget = '#editAdminAccounts';
+                            $('#editAdminAccounts').modal('show');
+                            document.getElementById('editAdmin').value = data['adminName'];
+                            document.getElementById('editAdminEmail').value = data['admin_email'];
+                            document.getElementById('editAdminPass').value = data['admin_password'];
+                            currentData = [data['admin_id'], data['adminName'], data['admin_email'], data['admin_password']];
+                            select = "edit";
+                            tableUse = "admin";
+                            editAdminAccount(currentData);
+                        }
 
-                    // updateData(currentData);
-                    console.log("TRIGGER BY YOU");
-                    //Function that will save edited data
-                });
+                        // updateData(currentData);
+                        console.log("TRIGGER BY YOU");
+                        //Function that will save edited data
+                    });
+                }
+
                 const deleteBtn = document.createElement('a');
                 deleteBtn.className = 'text-danger';
                 deleteBtn.title = 'Delete';

@@ -20,10 +20,10 @@ export async function dashboardFunctions() {
     // const app = initializeApp(firebaseConfig);
     // Initialize Firestore
     const db = getFirestore(app);
-    if (localStorage.getItem('adminSessionData') === null) {
-        // Both items are empty, redirect to the index page
-        window.location.replace("index.html");
-    }
+    // if (localStorage.getItem('adminSessionData') === null) {
+    //     // Both items are empty, redirect to the index page
+    //     window.location.replace("index.html");
+    // }
 
 
     //Mobile and web Count

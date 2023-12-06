@@ -15,7 +15,7 @@ export function subscriptionRegisterFunction() {
     const subscriptionPlanRef = collection(db, 'Subscription-Plan');
     const travelAgency = collection(db, 'Travel_agencies');
     const subscribers = collection(db, 'Subscribers');
-    // let subPlanDetails = [];
+    let subPlanDetails = [];
 
     // Function that fetches data from the Subscription-Plan Collection and displays it in the HTML
     async function displaySubscriptionPlan() {
@@ -25,6 +25,8 @@ export function subscriptionRegisterFunction() {
             querySnapshot.forEach((doc) => {
                 const subscriptionData = doc.data();
                 console.log(subscriptionData);
+                subPlanDetails.push(subscriptionData.subscriptionName);
+                subPlanDetails.push(subscriptionData.subscriptionFee);
 
                 // Access the HTML elements and update their content for Monthly plan
                 if (subscriptionData.subscriptionName === 'Monthly') {
@@ -43,7 +45,7 @@ export function subscriptionRegisterFunction() {
                     yearlyTitle.textContent = subscriptionData.subscriptionName;
                     yearlyFee.textContent = `₱${subscriptionData.subscriptionFee}/yr`;
                 }
-
+                console.log(subPlanDetails);
             });
         } catch (error) {
             console.error('Error getting subscription plan:', error);
@@ -135,13 +137,6 @@ export function subscriptionRegisterFunction() {
         const alertDiv = document.querySelector('.alert-container');
         alertDiv.querySelector('.alert').textContent = message;
         alertDiv.style.display = 'block';
-
-        // Close the modal
-        // const registerModal = document.getElementById('registerModal');
-        // const modal = bootstrap.Modal.getInstance(registerModal);
-        // if (modal) {
-        //     modal.hide();
-        // }
         setTimeout(function () {
             alertDiv.style.display = 'none';
         }, 3000);
@@ -210,6 +205,7 @@ export function subscriptionRegisterFunction() {
     const registerForm = document.getElementById('registerSubscription');
     let dataCollection = [];
     let paymentDetails = [];
+    const agencyDataArray = [];
     // Add an event listener for form submission
     if (registerForm) {
         registerForm.addEventListener('submit', async function (event) {
@@ -232,8 +228,22 @@ export function subscriptionRegisterFunction() {
                 errorMessage('error-msg', 'err_msg', "Password must be at least 8 characters long.", 'bg-danger');
             }
             dataCollection = [companyName, subscriptionPlan, startDate, endDate, email, password, daysLeft, userStatus, downloadURL];
+
+            const userData = {
+                subscriptionPlan: subscriptionPlan,
+                startDate: startDate,
+                endDate: endDate,
+                companyName: companyName,
+                email: email,
+                password: password,
+                daysLeft: daysLeft,
+                userStatus: userStatus,
+                downloadURL: downloadURL // Example URL
+            };
+            // Serializing and saving the object in local storage
+            localStorage.setItem('userData', JSON.stringify(userData));
             // console.log("Heeyy: ", dataCollection);
-            // paymentDetails = [companyName, subscriptionPlan];
+            paymentDetails = [companyName, subscriptionPlan];
             // console.log("Payment: ", subscriptionPlan);
 
             $("#registerModal").modal("hide");
@@ -243,50 +253,50 @@ export function subscriptionRegisterFunction() {
     }
 
     //Function that will save data from add admin form
-    async function saveData(dataCollection) {
-        try {
-            // const agencyId = uuidv4(); 
-            const hashedUserPassword = await hashPassword(dataCollection[5]);
-            if (hashedUserPassword) {
-                const agencyId = uuidv4();
-                // Store User data of the companies to 'Travel_agencies' collection const Travel_agencies = 
-                await addDoc(travelAgency, {
-                    subscriptionPlan: dataCollection[1],
-                    subscription_startDate: dataCollection[2],
-                    subscription_endDate: dataCollection[3],
-                    companyName: dataCollection[0],
-                    agency_email: dataCollection[4],
-                    agency_password: hashedUserPassword,
-                    agencyProfile: dataCollection[8],
-                    agency_id: agencyId
-                });
+    // async function saveData(dataCollection) {
+    //     try {
+    //         // const agencyId = uuidv4(); 
+    //         const hashedUserPassword = await hashPassword(dataCollection[5]);
+    //         if (hashedUserPassword) {
+    //             const agencyId = uuidv4();
+    //             // Store User data of the companies to 'Travel_agencies' collection const Travel_agencies = 
+    //             await addDoc(travelAgency, {
+    //                 subscriptionPlan: dataCollection[1],
+    //                 subscription_startDate: dataCollection[2],
+    //                 subscription_endDate: dataCollection[3],
+    //                 companyName: dataCollection[0],
+    //                 agency_email: dataCollection[4],
+    //                 agency_password: hashedUserPassword,
+    //                 agencyProfile: dataCollection[8],
+    //                 agency_id: agencyId
+    //             });
 
-                // const subscriberId = uuidv4();
-                // Store user subscription data in Firestore 'Subscribers' collection const Subscribers = 
-                await addDoc(subscribers, {
-                    companyName: dataCollection[0],
-                    subscriptionPlan: dataCollection[1],
-                    subscription_startDate: dataCollection[2],
-                    subscription_endDate: dataCollection[3],
-                    subscription_daysLeft: dataCollection[6],
-                    subscription_status: dataCollection[7],
-                    agencyProfile: dataCollection[8],
-                    agency_id: agencyId
-                });
-            }
-            // Clear the form
-            document.getElementById('registerSubscription').reset();
+    //             // const subscriberId = uuidv4();
+    //             // Store user subscription data in Firestore 'Subscribers' collection const Subscribers = 
+    //             await addDoc(subscribers, {
+    //                 companyName: dataCollection[0],
+    //                 subscriptionPlan: dataCollection[1],
+    //                 subscription_startDate: dataCollection[2],
+    //                 subscription_endDate: dataCollection[3],
+    //                 subscription_daysLeft: dataCollection[6],
+    //                 subscription_status: dataCollection[7],
+    //                 agencyProfile: dataCollection[8],
+    //                 agency_id: agencyId
+    //             });
+    //         }
+    //         // Clear the form
+    //         document.getElementById('registerSubscription').reset();
 
-            // Display a success message
-            createAlert('Successfully Added!');
-            console.log("Alert displayed");
-            $("#otpVerification").modal("hide");
-            location.reload(true);
-        } catch (error) {
-            // const errorMessage = error.message || 'Failed to add';
-            errorMessage('error-msg', 'err_msg', "errorMessage", 'bg-danger');
-        }
-    }
+    //         // Display a success message
+    //         createAlert('Successfully Added!');
+    //         console.log("Alert displayed");
+    //         $("#otpVerification").modal("hide");
+    //         location.reload(true);
+    //     } catch (error) {
+    //         // const errorMessage = error.message || 'Failed to add';
+    //         errorMessage('error-msg', 'err_msg', "errorMessage", 'bg-danger');
+    //     }
+    // }
 
     // Your hashPassword function 
     async function hashPassword(password) {
@@ -299,85 +309,67 @@ export function subscriptionRegisterFunction() {
         }
     }
 
-    // const paymentForm = document.getElementById('paymentForm');
-    // if (paymentForm) {
-    //     paymentForm.addEventListener('submit', function (event) {
-    //         event.preventDefault();
+    const paymentForm = document.getElementById('paymentForm');
+    if (paymentForm) {
+        paymentForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            let subscriptionFee;
+            var companyName = document.getElementById('companyname').value;
+            var agency_email = document.getElementById('emailUser').value;
+            var subscriptionPlan = document.getElementById('subsciptPlan').value;
+            // var subscriptionFee = document.getElementById('amountFee').value;
+            if (paymentDetails[1] === subPlanDetails[0]) {
+                subscriptionFee = subPlanDetails[1];
+            } else if (paymentDetails[1] === subPlanDetails[2]) {
+                subscriptionFee = subPlanDetails[3];
+            }
+            var paymentMethod = "gcash";
 
-    //         var companyName = document.getElementById('company_name').value;
-    //         var subscriptionPlan = document.getElementById('subsciptPlan').value;
-    //         var subscriptionFee = document.getElementById('amountFee').value;
-    //         var paymentMethod = document.getElementById('paymentMethodSelect').value;
+            redirectToUrl(companyName, subscriptionPlan, subscriptionFee, paymentMethod, agency_email);
 
-    //         // var formData = {
-    //         //     companyName: companyName,
-    //         //     subscriptionPlan: subscriptionPlan,
-    //         //     subscriptionFee: subscriptionFee,
-    //         //     paymentMethod: paymentMethod
-    //         // };
+        });
+    }
 
-    //         redirection(companyName, subscriptionPlan, subscriptionFee, paymentMethod);
-    //         // // Make an AJAX request to the server
-    //         // fetch('http://localhost:80/callarboat/index.php', {
-    //         //     method: 'POST',
-    //         //     headers: {
-    //         //         'Content-Type': 'application/json',
-    //         //     },
-    //         //     body: JSON.stringify(formData),
-    //         // })
-    //         //     .then(response => response.text())
-    //         //     .then(data => {
-    //         //         console.log(data);
-    //         //     })
-    //         //     .catch(error => {
-    //         //         console.error('Error submitting form:', error);
-    //         //     });
+    function getPaymentDetails() {
+        let subscriptionFee;
+        var companyName = document.getElementById('companyname').value;
+        var agency_email = document.getElementById('emailUser').value;
+        var subscriptionPlan = document.getElementById('subplan').value;
+        if (paymentDetails[1] === subPlanDetails[0]) {
+            subscriptionFee = subPlanDetails[1];
+        } else if (paymentDetails[1] === subPlanDetails[2]) {
+            subscriptionFee = subPlanDetails[3];
+        }
+        var paymentMethod = "gcash";
 
-    //     });
-    // }
-
-    // function sendDataToPHP(formData) {
-    //     var xhr = new XMLHttpRequest();
-    //     xhr.onreadystatechange = function () {
-    //         if (this.readyState == 4) {
-    //             if (this.status == 200) {
-    //                 var responseFromPHP = this.responseText;
-    //                 // console.log(responseFromPHP);
-    //                 // Handle the response as needed
-    //             } else {
-    //                 console.error("Error: Unable to send data to PHP.");
-    //             }
-
-    //             // Redirect to index.php after processing the response
-    //             window.location.href = "http://localhost:80/callarboat/index.php";
-    //         }
-    //     };
-
-    //     xhr.open("POST", "http://localhost:80/callarboat/index.php", true);
-    //     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    //     xhr.send(JSON.stringify(formData));
-    // }
-
-    // // Call the function to send data to PHP
-    // sendDataToPHP(formData);
-
-    // function redirection(companyName, subscriptionPlan, subscriptionFee, paymentMethod) {
-    //     //Target URL
-    //     let url = "http://localhost/callarboat/index.php";
-
-    //     //SEND DATA TO PHP
-    //     url += "?companyName=" + encodeURIComponent(companyName);
-    //     url += "&subscriptionPlan=" + encodeURIComponent(subscriptionPlan);
-    //     url += "&subscriptionFee=" + encodeURIComponent(subscriptionFee);
-    //     url += "&paymentMethod=" + encodeURIComponent(paymentMethod);
-
-    //     //Redirect to php
-    //     window.location.replace(url);
-    //     return false;
-
-    // }
+        redirectToUrl(companyName, subscriptionPlan, subscriptionFee, paymentMethod, agency_email);
+    }
 
 
+    function redirectToUrl(companyName, subscriptionPlan, subscriptionFee, paymentMethod, agency_email) {
+        // Base URL
+        let url = "http://localhost/callarboat/index.php";
+
+        // Form data object
+        var formData = {
+            companyName: companyName,
+            subscriptionPlan: subscriptionPlan,
+            subscriptionFee: subscriptionFee,
+            agency_email: agency_email,
+            paymentMethod: paymentMethod
+        };
+        //For Amount Fee Reference
+        localStorage.setItem('Bill', JSON.stringify(formData));
+        // Convert formData object into query string
+        let queryString = new URLSearchParams(formData).toString();
+
+        // Append query string to the URL
+        url += "?" + queryString;
+
+        // hide modal and Redirect to the URL
+        $("#otpVerification").modal("hide");
+        window.location.replace(url);
+    }
 
     // Validate Email
     var otpCode = "";
@@ -446,8 +438,9 @@ export function subscriptionRegisterFunction() {
                 if (enteredOTP == otpCode) {
                     console.log("OTP enter is correct");
                     errorMessage('error-msg', 'err_msg', "Email address verified", 'bg-success');
-                    saveData(dataCollection);
+                    // saveData(dataCollection);
                     // $("#otpVerification").modal("hide");
+                    getPaymentDetails();
                     // displayPaymentDetailes();
                     // $("#paymentModal").modal("show");
                 } else {
@@ -459,8 +452,8 @@ export function subscriptionRegisterFunction() {
     }
 
     // function displayPaymentDetailes() {
-    //     document.getElementById('company_name').value = paymentDetails[0];
-    //     document.getElementById('subsciptPlan').value = paymentDetails[1];
+    //     // document.getElementById('company_name').value = paymentDetails[0];
+    //     // document.getElementById('subsciptPlan').value = paymentDetails[1];
     //     const amountFee = document.getElementById('amountFee');
     //     // console.log(subPlanDetails[0][1].subscriptionFee);
     //     if (paymentDetails[1] === subPlanDetails[0]) {

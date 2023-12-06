@@ -267,13 +267,29 @@
         </div>
         <!-- End Here -->
 
-        <!-- ===== Payment Modal ===== -->
+        <!-- Toast Wait -->
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div id="myToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"
+                style="display: none;">
+                <div class="toast-header">
+                    <img src="../assets/img/toast-img.png" class="rounded me-2" alt="...">
+                    <strong class="me-auto" id="toastTitleId">Bootstrap</strong>
+                    <!-- <small id="toastTime">11 mins ago</small> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="toastMWaitMsg">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== Payment Modal =====
         <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <!-- <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5> -->
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -282,17 +298,17 @@
                         </div>
                         <div class="col-12">
                             <form class="m-5" id="paymentForm">
-                                <!-- Company Name -->
+                                Company Name
                                 <div class="form-group mb-4">
                                     <label class="form-label" for="company_name">Company Name:</label>
                                     <input type="text" id="company_name" class="form-control" />
                                 </div>
-                                <!-- Plan -->
+                                Plan
                                 <div class="form-group mb-4">
                                     <label class="form-label" for="subsciptPlan">Subscription Plan:</label>
                                     <input type="text" id="subsciptPlan" class="form-control" />
                                 </div>
-                                <!--  input -->
+                                 input
                                 <div class="form-group mb-4">
                                     <label class="form-label" for="amountFee">Subscription Fee:</label>
                                     <input type="text" id="amountFee" class="form-control" />
@@ -302,16 +318,16 @@
                                     <select class="form-select" id="paymentMethodSelect">
                                         <option selected disabled>Select Payment Method</option>
                                         <option value="gcash">GCash</option>
-                                        <!-- Add more payment options here -->
+                                        Add more payment options here
                                     </select>
                                 </div>
 
-                                <!-- Error Message -->
+                                Error Message
                                 <div class="mb-4 error-message" id="error-msg" style="display: none;">
                                     <p class="bg-danger p-2 text-light" id="err_msg"></p>
                                 </div>
 
-                                <!-- Submit button -->
+                                Submit button
                                 <div class="form-group mb-4">
                                     <button type="submit" class="btn btn-primary addBtn">Submit</button>
                                 </div>
@@ -321,7 +337,7 @@
                 </div>
             </div>
         </div>
-        <!-- End Here -->
+        End Here -->
 
         <!-- TOAST MESSAGE -->
         <div class="toast-container position-fixed bottom-0 end-0 p-3">

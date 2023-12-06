@@ -14,6 +14,7 @@ import { adminNotificationFunctions } from './admin-notification';
 import { adminProfleFunctions } from './admin-profiles';
 import { logout } from './logout';
 import { session } from './session';
+import { fetchPHPData } from './fetchFromPHP';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAUWz7jfrt46iBvAnZ-AESn8kNmqtbTlmw",
@@ -36,16 +37,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  session(); // Call your function within the DOMContentLoaded event
-  // subscriptionRegisterFunction();
-  // adminProfleFunctions();
-  // subscriptionFunctions();
-  // dashboardFunctions();
-  // accountsFunctions();
-  // accountsUserCountFunctions();
-  // adminNotificationFunctions();
+  fetchPHPData();
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+  session(); // Call your function within the DOMContentLoaded event
+});
 
 document.addEventListener('DOMContentLoaded', function () {
   subscriptionRegisterFunction(); // Call your function within the DOMContentLoaded event

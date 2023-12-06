@@ -101,7 +101,6 @@ export function subscriptionFunctions() {
         }
     }
 
-
     fetchAndDisplaySubscriptionPlans();
 
     //Add Subscription Plan
@@ -153,7 +152,7 @@ export function subscriptionFunctions() {
             alertDiv.style.display = 'none';
 
         }, 3000);
-        console.log('hey');
+        location.reload(true);
     }
 
     //Edit Subscription Plan
@@ -177,15 +176,43 @@ export function subscriptionFunctions() {
                     accountNumber: subAccEdit
                 }
 
+                // getDocs(queryRef)
+                //     .then((querySnapshot) => {
+                //         if (!querySnapshot.empty) {
+                //             // If a document matching the search criteria is found, update it
+                //             const doc = querySnapshot.docs[0]; // Get the first document (assuming it's unique)
+                //             const planDocRef = doc.ref;
+                //             return setDoc(planDocRef, newData, { merge: true });
+                //             // // Use getDoc to retrieve the current document data
+                //             return getDoc(planDocRef);
+                //         } else {
+                //             console.log('Document not found');
+                //         }
+                //     })
+                //     .then(() => {
+                //         console.log('Document updated successfully');
+
+                //         $("#editSubscriptionPlan").modal("hide");
+                //         // Add a log statement to check if the modal is hidden
+                //         // console.log('Modal hidden');
+                //         // fetchAndDisplaySubscriptionPlans();
+                //         // Reload the page
+                //         createAlert('Document updated successfully');
+                //         location.reload(true);
+
+
+                //     })
+                //     .catch((error) => {
+                //         console.error('Error:', error);
+                //     });
                 getDocs(queryRef)
                     .then((querySnapshot) => {
                         if (!querySnapshot.empty) {
                             // If a document matching the search criteria is found, update it
                             const doc = querySnapshot.docs[0]; // Get the first document (assuming it's unique)
                             const planDocRef = doc.ref;
+                            // Update the document with the new data
                             return setDoc(planDocRef, newData, { merge: true });
-                            // // Use getDoc to retrieve the current document data
-                            return getDoc(planDocRef);
                         } else {
                             console.log('Document not found');
                         }
@@ -194,14 +221,8 @@ export function subscriptionFunctions() {
                         console.log('Document updated successfully');
 
                         $("#editSubscriptionPlan").modal("hide");
-                        // Add a log statement to check if the modal is hidden
-                        // console.log('Modal hidden');
-                        // fetchAndDisplaySubscriptionPlans();
-                        // Reload the page
                         createAlert('Document updated successfully');
                         location.reload(true);
-
-
                     })
                     .catch((error) => {
                         console.error('Error:', error);
@@ -323,8 +344,6 @@ export function subscriptionFunctions() {
             // console.error('Error fetching documents:', error);
         }
     }
-
-
 
     fetchDateAndUpdateDaysLeft();
 
@@ -522,7 +541,6 @@ export function subscriptionFunctions() {
         })
 
     }
-
 
     //Delete Subscription 
     async function deleteSubscription(subscriptionID) {
