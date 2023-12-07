@@ -454,31 +454,39 @@ export function accountsFunctions() {
         if (adminEditForm) {
             adminEditForm.addEventListener('submit', async function (event) {
                 event.preventDefault();
-                const updatedAdminName = document.getElementById('editAdmin').value;
-                const updatedEmail = document.getElementById('editAdminEmail').value;
-                const updatedPassword = document.getElementById('editAdminPass').value;
-                console.log(updatedAdminName, " ", updatedEmail, " ", updatedPassword);
+                if (confirm('Are you sure you want to edit the hashed password?')) {
+                    const updatedAdminName = document.getElementById('editAdmin').value;
+                    const updatedEmail = document.getElementById('editAdminEmail').value;
+                    const updatedPassword = document.getElementById('editAdminPass').value;
+                    console.log(updatedAdminName, " ", updatedEmail, " ", updatedPassword);
 
-                if (currentData[1] == updatedAdminName && currentData[2] == updatedEmail && currentData[3] == updatedPassword) {
-                    errorMessage('error-msg', 'err_msg', "There's no changes on data", 'bg-danger');
-                } else {
-                    // Check for password validity
-                    if (!checkPasswordValidity(adminPass)) {
-                        errorMessage('error-msg', 'err_msg', "Password must be at least 8 characters long.", 'bg-danger');
-                    }
-
-                    // Check is email is change
-                    if (updatedEmail !== currentData[2]) {
-                        $("#editAdminAccounts").modal("hide");
-                        $("#otpVerification").modal("show");
-                        sendVerificationCode(updatedEmail);
-                        data = [updatedAdminName, updatedEmail, updatedPassword];
+                    if (currentData[1] == updatedAdminName && currentData[2] == updatedEmail && currentData[3] == updatedPassword) {
+                        errorMessage('error-msg', 'err_msg', "There's no changes on data", 'bg-danger');
                     } else {
-                        saveAdmin([updatedAdminName, updatedEmail, updatedPassword]);
+                        // Check for password validity
+                        if (!checkPasswordValidity(adminPass)) {
+                            errorMessage('error-msg', 'err_msg', "Password must be at least 8 characters long.", 'bg-danger');
+                        }
+
+                        // Check is email is change
+                        if (updatedEmail !== currentData[2]) {
+                            $("#editAdminAccounts").modal("hide");
+                            $("#otpVerification").modal("show");
+                            sendVerificationCode(updatedEmail); agencyCurrentPassword
+                            // const currentPassword = localStorage.getItem('currentPassword');
+                            if (currentData[4] === updatedPassword) {
+                                data = [updatedAdminName, updatedEmail, updatedPassword];
+                            } else {
+                                const hashedUserPassword = await hashPassword(updatedPassword);
+                                data = [updatedAdminName, updatedEmail, hashedUserPassword];
+                            }
+                            data = [updatedAdminName, updatedEmail, updatedPassword];
+                        } else {
+                            saveAdmin([updatedAdminName, updatedEmail, updatedPassword]);
+                        }
+
                     }
-
                 }
-
             });
         }
     }

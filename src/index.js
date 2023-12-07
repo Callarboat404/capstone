@@ -4,14 +4,19 @@ import { vesselFunctions } from './vessel.js';
 import { routeFunctions } from './route.js';
 import { scheduleFunctions } from './schedule.js';
 import { bookingFunctions } from './booking.js';
+import { scannerFunctions } from './account.js';
+import { travelFareFunctions } from './travelFare.js';
+import { subscriptionFunctions } from './subscription.js';
+import { displayFunctions } from './display.js';
 import { subscriptionRegisterFunction } from './subscription-register.js';
 import { loginVerification } from './login-config.js';
 import { dashboardFunctions } from './admin-dashboard.js';
-import { subscriptionFunctions } from './subscription';
+import { adminSubscriptionFunctions } from './admin-subscription.js';
 import { accountsFunctions } from './admin-accounts';
 import { accountsUserCountFunctions } from './admin-accountCountUser';
 import { adminNotificationFunctions } from './admin-notification';
 import { adminProfleFunctions } from './admin-profiles';
+import { agencyProfleFunctions } from './agency-profile';
 import { logout } from './logout';
 import { session } from './session';
 import { fetchPHPData } from './fetchFromPHP';
@@ -53,7 +58,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  subscriptionFunctions(); // Call your function within the DOMContentLoaded event
+  agencyProfleFunctions(); // Call your function within the DOMContentLoaded event
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  adminSubscriptionFunctions(); // Call your function within the DOMContentLoaded event
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -97,6 +107,23 @@ if (moduleSelectedValue == "schedule") {
 if (moduleSelectedValue == "booking") {
   bookingFunctions();
 }
+
+if (moduleSelectedValue == "scanner") {
+  scannerFunctions();
+}
+
+if (moduleSelectedValue == "travelFare") {
+  travelFareFunctions();
+}
+
+if (moduleSelectedValue == "subscription") {
+  subscriptionFunctions();
+}
+
+if (moduleSelectedValue == "display") {
+  displayFunctions();
+}
+
 
 // if (moduleSelectedValue == "subscription-register") {
 //   subscriptionRegisterFunction();

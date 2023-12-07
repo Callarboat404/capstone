@@ -143,7 +143,7 @@ export function fetchPHPData() {
                     subscription_endDate: dataToSave[3],
                     agency_email: dataToSave[4],
                     agency_password: hashedUserPassword,
-                    agencyProfile: dataToSave[8],
+                    agency_profile: dataToSave[8],
                     agency_id: agencyId
                 });
                 console.log("travel");
@@ -157,7 +157,7 @@ export function fetchPHPData() {
                     subscription_endDate: dataToSave[3],
                     subscription_daysLeft: dataToSave[6],
                     subscription_status: dataToSave[7],
-                    agencyProfile: dataToSave[8],
+                    agency_profile: dataToSave[8],
                     agency_id: agencyId
                 });
                 console.log("Subscribers");

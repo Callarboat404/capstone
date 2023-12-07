@@ -257,7 +257,7 @@ export function loginVerification() {
                     if (status) {
                         localStorage.setItem('agencySessionData', JSON.stringify(agencyDataArray));
                         createAlert('Login Successfully');
-                        window.location.replace('../dist/dashboard.html'); // Redirect to travel agencies dashboard
+                        window.location.replace('../dist/agencyDashboard.html'); // Redirect to travel agencies dashboard
                     }
                 } else {
                     // Password is incorrect

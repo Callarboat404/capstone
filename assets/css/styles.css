@@ -510,7 +510,8 @@ section {
 .search-bar {
     display: flex;
     align-items: center;
-  }
+}
+
 .sub-table .align-middle .status {
     background-color: #C5FFC5;
     color: #5CB85C;

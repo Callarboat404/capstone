@@ -26,27 +26,29 @@ export function session() {
     }
     displaySessionData();
 
-    // function displayAgencySessionData() {
-    //     // Retrieve the JSON string from localStorage
-    //     const agencySessionData = localStorage.getItem('agencySessionData');
-    //     if (agencySessionData !== null) {
-    //         // Parse the JSON string back to an array of objects
-    //         const data = JSON.parse(agencySessionData);
+    //Agency Session
+    function displayAgencySessionData() {
+        // Retrieve the JSON string from localStorage
+        const agencySessionData = localStorage.getItem('agencySessionData');
+        if (agencySessionData !== null) {
+            // Parse the JSON string back to an array of objects
+            const data = JSON.parse(agencySessionData);
 
-    //         // You can now access properties of the objects in the array
-    //         for (const agencyData of data) {
-    //             document.getElementById('profileImage').src = agencyData.profileImage;
-    //             document.getElementById('agencyAvatarID').src = agencyData.profileImage;
-    //             document.getElementById('profileImage').src = agencyData.profileImage;
-    //             document.getElementById('inputName').value = agencyData.companyName;
-    //             document.getElementById('inputEmail').value = agencyData.agency_email;
-    //             document.getElementById('inputPassword').value = agencyData.agencyPassword;
-    //             localStorage.setItem('agencyUserID', agencyData.userId);
-    //         }
-    //     } else {
-    //         // Handle the case where no data is stored
-    //         console.log('No data found in localStorage');
-    //     }
-    // }
-    // displayAgencySessionData();
+            // You can now access properties of the objects in the array
+            for (const agencyData of data) {
+                // document.getElementById('profileImage').src = agencyData.profileImage;
+                document.getElementById('agencyAvatarID').src = agencyData.profileImage;
+                document.getElementById('agencyProfileImage').src = agencyData.profileImage;
+                document.getElementById('inputName').value = agencyData.companyName;
+                document.getElementById('inputEmail').value = agencyData.agency_email;
+                document.getElementById('inputPassword').value = agencyData.agencyPassword;
+                localStorage.setItem('agencyCurrentPassword', agencyData.agencyPassword);
+                localStorage.setItem('agencyUserID', agencyData.userId);
+            }
+        } else {
+            // Handle the case where no data is stored
+            console.log('No data found in localStorage');
+        }
+    }
+    displayAgencySessionData();
 }
