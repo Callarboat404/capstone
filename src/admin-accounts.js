@@ -95,7 +95,15 @@ export function accountsFunctions() {
                 columns.forEach((col) => {
                     col.forEach((fieldName) => {
                         const newCell = document.createElement('td');
-                        newCell.textContent = data[fieldName] || '';
+                        if (fieldName.includes('password')) {
+                            const passwordLength = 10; // Set the desired uniform length
+                            // const password = data[fieldName] || '';
+                            newCell.textContent = '*'.repeat(passwordLength); // Display asterisks of uniform length
+                        }
+                        else {
+                            newCell.textContent = data[fieldName] || '';
+                        }
+
                         newRow.appendChild(newCell);
                     });
                 });
@@ -170,6 +178,17 @@ export function accountsFunctions() {
             // console.error('Error fetching documents:', error);
         }
     }
+
+    //Limit password display
+    // function limitPasswordDisplay(password) {
+    //     const maxDisplayChars = 10
+    //     if (password.length > maxDisplayChars) {
+    //         return '*'.repeat(maxDisplayChars);
+    //     } else {
+    //         return password;
+    //     }
+    // }
+
 
     //Display mobile table body
     async function mobileTableData(collectionName, tBody) {
@@ -454,15 +473,17 @@ export function accountsFunctions() {
         if (adminEditForm) {
             adminEditForm.addEventListener('submit', async function (event) {
                 event.preventDefault();
-                if (confirm('Are you sure you want to edit the hashed password?')) {
-                    const updatedAdminName = document.getElementById('editAdmin').value;
-                    const updatedEmail = document.getElementById('editAdminEmail').value;
-                    const updatedPassword = document.getElementById('editAdminPass').value;
-                    console.log(updatedAdminName, " ", updatedEmail, " ", updatedPassword);
+                // if (confirm('Are you sure you want to edit the hashed password?')) {
+                const updatedAdminName = document.getElementById('editAdmin').value;
+                const updatedEmail = document.getElementById('editAdminEmail').value;
+                const updatedPassword = document.getElementById('editAdminPass').value;
+                console.log(updatedAdminName, " ", updatedEmail, " ", updatedPassword);
 
-                    if (currentData[1] == updatedAdminName && currentData[2] == updatedEmail && currentData[3] == updatedPassword) {
-                        errorMessage('error-msg', 'err_msg', "There's no changes on data", 'bg-danger');
-                    } else {
+                if (currentData[1] == updatedAdminName && currentData[2] == updatedEmail && currentData[3] == updatedPassword) {
+                    errorMessage('error-msg', 'err_msg', "There's no changes on data", 'bg-danger');
+                    alert('Theres no changes on data');
+                } else {
+                    if (confirm('Are you sure you want to edit the hashed password?')) {
                         // Check for password validity
                         if (!checkPasswordValidity(adminPass)) {
                             errorMessage('error-msg', 'err_msg', "Password must be at least 8 characters long.", 'bg-danger');
@@ -484,9 +505,9 @@ export function accountsFunctions() {
                         } else {
                             saveAdmin([updatedAdminName, updatedEmail, updatedPassword]);
                         }
-
                     }
                 }
+                // }
             });
         }
     }
